@@ -1,5 +1,7 @@
 package world
 
+import "github.com/google/uuid"
+
 type ChunkPosition struct {
 	x int
 	y int
@@ -16,13 +18,28 @@ func (c *ChunkPosition) SetPosition(x, y int) {
 
 type ChunkGraph struct {
 	ID       string
-	Position ChunkPosition
+	Position *ChunkPosition
 	Length   int
 	Width    int
 	North    *ChunkGraph
 	South    *ChunkGraph
 	West     *ChunkGraph
 	East     *ChunkGraph
+}
+
+func CreateNewChunk(x, y int) *ChunkGraph {
+	chunkPosition := &ChunkPosition{
+		x,
+		y,
+	}
+
+	chunk := &ChunkGraph{
+		ID:       uuid.NewString(),
+		Position: chunkPosition,
+		Length:   ChunkLenght,
+		Width:    ChunkWidth,
+	}
+	return chunk
 }
 
 func (c *ChunkGraph) GetPosition() (int, int) {

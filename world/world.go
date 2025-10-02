@@ -7,6 +7,11 @@ const (
 
 	West = "West"
 	East = "East"
+
+	ChunkLenght = 128
+	ChunkWidth  = 96
+
+	DefaultName = "NJQ"
 )
 
 type IPosition interface {
@@ -15,6 +20,26 @@ type IPosition interface {
 }
 
 type World struct {
-	Chunks  []ChunkGraph
-	Players []Player
+	Chunks  []*ChunkGraph
+	Players []*Player
+}
+
+func CreateNewWorld() *World {
+	chunk := CreateNewChunk(0, 0)
+	player := CreateNewPlayer(DefaultName)
+	player.ChunkID = &chunk.ID
+	world := &World{
+		Chunks:  []*ChunkGraph{chunk},
+		Players: []*Player{player},
+	}
+	return world
+}
+
+func LoadWorld() {
+}
+
+func LoadPlayers() {
+}
+
+func LoadChunks() {
 }
