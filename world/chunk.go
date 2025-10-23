@@ -50,6 +50,23 @@ func (c *ChunkGraph) SetPosition(x, y int) {
 	c.Position.SetPosition(x, y)
 }
 
+func (c *ChunkGraph) SetAdjacentChunkByDirection(direction string, chunk *ChunkGraph) {
+	switch direction {
+	case North:
+		c.North = chunk
+		chunk.South = c
+	case South:
+		c.South = chunk
+		chunk.North = c
+	case West:
+		c.West = chunk
+		chunk.East = c
+	case East:
+		c.East = chunk
+		chunk.West = c
+	}
+}
+
 func (c *ChunkGraph) Navigate(direction string) *ChunkGraph {
 	switch direction {
 	case North:
