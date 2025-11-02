@@ -16,15 +16,25 @@ func (c *ChunkPosition) SetPosition(x, y int) {
 	c.y = y
 }
 
+func (c *ChunkPosition) TranslateNew(x, y int) *ChunkPosition {
+	return &ChunkPosition{
+		x: c.x + x,
+		y: c.y + y,
+	}
+}
+
 type ChunkGraph struct {
-	ID       string
-	Position *ChunkPosition
-	Length   int
-	Width    int
-	North    *ChunkGraph
-	South    *ChunkGraph
-	West     *ChunkGraph
-	East     *ChunkGraph
+	ID                string
+	Position          *ChunkPosition
+	PlayerIDsPosition map[PlayerPosition]string
+
+	Length int
+	Width  int
+
+	North *ChunkGraph
+	South *ChunkGraph
+	West  *ChunkGraph
+	East  *ChunkGraph
 }
 
 func CreateNewChunk(x, y int) *ChunkGraph {
@@ -34,6 +44,8 @@ func CreateNewChunk(x, y int) *ChunkGraph {
 	}
 
 	chunk := &ChunkGraph{
+		PlayerIDsPosition: make(map[PlayerPosition]string),
+
 		ID:       uuid.NewString(),
 		Position: chunkPosition,
 		Length:   ChunkLenght,
@@ -48,6 +60,18 @@ func (c *ChunkGraph) GetPosition() (int, int) {
 
 func (c *ChunkGraph) SetPosition(x, y int) {
 	c.Position.SetPosition(x, y)
+}
+
+func (c *ChunkGraph) InsertPlayerID(playerID string, position PlayerPosition) {
+	c.PlayerIDsPosition[position] = playerID
+}
+
+func (c *ChunkGraph) RemovePlayerID(position PlayerPosition) string {
+	if playerID, ok := c.PlayerIDsPosition[position]; ok {
+		delete(c.PlayerIDsPosition, position)
+		return playerID
+	}
+	return ""
 }
 
 func (c *ChunkGraph) SetAdjacentChunkByDirection(direction string, chunk *ChunkGraph) {

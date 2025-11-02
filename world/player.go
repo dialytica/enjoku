@@ -19,7 +19,7 @@ func (p *PlayerPosition) SetPosition(x, y int) {
 type Player struct {
 	ID       string
 	Name     string
-	ChunkID  *string
+	ChunkID  string
 	Position *PlayerPosition
 }
 
