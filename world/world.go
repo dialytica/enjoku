@@ -20,6 +20,18 @@ const (
 	DefaultName = "NJQ"
 )
 
+type PlayerIDNotFoundError string
+
+func (p PlayerIDNotFoundError) Error() string {
+	return fmt.Sprintf("playerID: %s is not found", string(p))
+}
+
+type ChunkIDNotFoundError string
+
+func (c ChunkIDNotFoundError) Error() string {
+	return fmt.Sprintf("chunkID: %s is not found", string(c))
+}
+
 type IPosition interface {
 	GetPosition() (int, int)
 	SetPosition(x, y int)
@@ -64,22 +76,28 @@ func LoadWorld(playerName, playerID string) *World {
 	return newWorld
 }
 
-func (w *World) MovePlayer(playerID string, x, y int) {
-	player := w.Players[playerID]
-	playerChunk := w.Chunks[player.ChunkID]
+func (w *World) MovePlayer(playerID string, x, y int) error {
+	player, ok := w.Players[playerID]
+	if !ok {
+		return PlayerIDNotFoundError(playerID)
+	}
+	playerChunk, ok := w.Chunks[player.ChunkID]
+	if !ok {
+		return ChunkIDNotFoundError(player.ChunkID)
+	}
 	playerChunk.RemovePlayerID(*player.Position)
-	log.Printf("player: %+v\n", player)
-	log.Printf("chunk: %+v\n", playerChunk)
 
 	if math.Abs(float64(x)) > float64(playerChunk.Length)/2 {
 		if x > 0 {
 			w.LoadAdjacentChunks(playerChunk)
 			x = -playerChunk.Length / 2
 			player.ChunkID = playerChunk.East.ID
+			w.ChunkIDPosition[*playerChunk.East.Position] = player.ChunkID
 		} else {
 			w.LoadAdjacentChunks(playerChunk)
 			x = playerChunk.Length / 2
 			player.ChunkID = playerChunk.West.ID
+			w.ChunkIDPosition[*playerChunk.West.Position] = player.ChunkID
 		}
 	}
 	if math.Abs(float64(y)) > float64(playerChunk.Width)/2 {
@@ -87,16 +105,25 @@ func (w *World) MovePlayer(playerID string, x, y int) {
 			w.LoadAdjacentChunks(playerChunk)
 			y = -playerChunk.Width / 2
 			player.ChunkID = playerChunk.North.ID
+			w.ChunkIDPosition[*playerChunk.North.Position] = player.ChunkID
 		} else {
 			w.LoadAdjacentChunks(playerChunk)
 			y = playerChunk.Width / 2
 			player.ChunkID = playerChunk.South.ID
+			w.ChunkIDPosition[*playerChunk.South.Position] = player.ChunkID
 		}
 	}
 
-	playerChunk = w.Chunks[player.ChunkID]
+	log.Printf("player: %+v\n", player)
+	log.Printf("chunk: %+v\n", playerChunk)
+
+	playerChunk, ok = w.Chunks[player.ChunkID]
+	if !ok {
+		return ChunkIDNotFoundError(player.ChunkID)
+	}
 	player.SetPosition(x, y)
 	playerChunk.InsertPlayerID(playerID, *player.Position)
+	return nil
 }
 
 func (w *World) LoadAdjacentChunks(currentChunk *ChunkGraph) {

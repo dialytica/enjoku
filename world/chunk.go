@@ -24,9 +24,8 @@ func (c *ChunkPosition) TranslateNew(x, y int) *ChunkPosition {
 }
 
 type ChunkGraph struct {
-	ID                string
-	Position          *ChunkPosition
-	PlayerIDsPosition map[PlayerPosition]string
+	ID       string
+	Position *ChunkPosition
 
 	Length int
 	Width  int
@@ -35,6 +34,8 @@ type ChunkGraph struct {
 	South *ChunkGraph
 	West  *ChunkGraph
 	East  *ChunkGraph
+
+	PlayerIDsPosition map[PlayerPosition]string
 }
 
 func CreateNewChunk(x, y int) *ChunkGraph {
