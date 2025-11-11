@@ -3,30 +3,30 @@ package world
 import "github.com/google/uuid"
 
 type PlayerPosition struct {
-	x int
-	y int
+	X int
+	Y int
 }
 
 func (p *PlayerPosition) GetPosition() (int, int) {
-	return p.x, p.y
+	return p.X, p.Y
 }
 
 func (p *PlayerPosition) SetPosition(x, y int) {
-	p.x = x
-	p.y = y
+	p.X = x
+	p.Y = y
 }
 
 type Player struct {
-	ID       string
-	Name     string
-	ChunkID  string
-	Position *PlayerPosition
+	ID       string          `json:"id"`
+	Name     string          `json:"name"`
+	ChunkID  string          `json:"chunk_id"`
+	Position *PlayerPosition `json:"position"`
 }
 
 func CreateNewPlayer(name string) *Player {
 	playerPosition := &PlayerPosition{
-		x: 0,
-		y: 0,
+		X: 0,
+		Y: 0,
 	}
 	return &Player{
 		ID:       uuid.NewString(),
@@ -36,7 +36,7 @@ func CreateNewPlayer(name string) *Player {
 }
 
 func (p *Player) GetPosition() (int, int) {
-	return p.Position.x, p.Position.y
+	return p.Position.X, p.Position.Y
 }
 
 func (p *Player) SetPosition(x, y int) {

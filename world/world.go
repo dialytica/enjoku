@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"math"
+
+	"github.com/google/uuid"
 )
 
 const (
@@ -38,6 +40,8 @@ type IPosition interface {
 }
 
 type World struct {
+	ID              string
+	Name            string
 	ChunkIDPosition map[ChunkPosition]string
 	Chunks          map[string]*ChunkGraph
 	Players         map[string]*Player
@@ -52,6 +56,7 @@ func CreateNewWorld(chunk *ChunkGraph, player *Player) *World {
 		player.ChunkID = chunk.ID
 	}
 	world := &World{
+		ID: uuid.NewString(),
 		ChunkIDPosition: map[ChunkPosition]string{
 			*chunk.Position: chunk.ID,
 		},
@@ -69,7 +74,7 @@ func LoadWorld(playerName, playerID string) *World {
 	player := CreateNewPlayer(playerName)
 	player.ID = playerID
 	newWorld := CreateNewWorld(nil, player)
-	chunkID := newWorld.ChunkIDPosition[ChunkPosition{x: 0, y: 0}]
+	chunkID := newWorld.ChunkIDPosition[ChunkPosition{X: 0, Y: 0}]
 	player.ChunkID = chunkID
 	chunk := newWorld.Chunks[chunkID]
 	chunk.InsertPlayerID(playerID, *player.Position)

@@ -3,39 +3,40 @@ package world
 import "github.com/google/uuid"
 
 type ChunkPosition struct {
-	x int
-	y int
+	X int `json:"x"`
+	Y int `json:"y"`
 }
 
 func (c *ChunkPosition) GetPosition() (int, int) {
-	return c.x, c.y
+	return c.X, c.Y
 }
 
 func (c *ChunkPosition) SetPosition(x, y int) {
-	c.x = x
-	c.y = y
+	
+	c.X = x
+	c.Y = y
 }
 
 func (c *ChunkPosition) TranslateNew(x, y int) *ChunkPosition {
 	return &ChunkPosition{
-		x: c.x + x,
-		y: c.y + y,
+		X: c.X + x,
+		Y: c.Y + y,
 	}
 }
 
 type ChunkGraph struct {
-	ID       string
-	Position *ChunkPosition
+	ID       string         `json:"id"`
+	Position *ChunkPosition `json:"position"`
 
-	Length int
-	Width  int
+	Length int `json:"length"`
+	Width  int `json:"width"`
 
-	North *ChunkGraph
-	South *ChunkGraph
-	West  *ChunkGraph
-	East  *ChunkGraph
+	North *ChunkGraph `json:"-"`
+	South *ChunkGraph `json:"-"`
+	West  *ChunkGraph `json:"-"`
+	East  *ChunkGraph `json:"-"`
 
-	PlayerIDsPosition map[PlayerPosition]string
+	PlayerIDsPosition map[PlayerPosition]string `json:"-"`
 }
 
 func CreateNewChunk(x, y int) *ChunkGraph {
