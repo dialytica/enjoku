@@ -22,7 +22,7 @@ akin of game engine, or game SDK that can access the game data.
 
 1. Game client will create unique ID that represents current player
 2. Game client then have some option:
-  1. Create a new world
-  2. Clone a game world from git repository
+   1. Create a new world
+   2. Clone a game world from git repository
 3. Play at your own pace, make a change in the game world
 4. Sync the game world to git repository
