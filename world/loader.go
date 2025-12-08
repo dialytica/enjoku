@@ -7,11 +7,11 @@ import (
 	"path/filepath"
 )
 
-// flattenWorld is flatten representation fo the world data in JSON format, it contains
+// FlattenWorld is flatten representation fo the world data in JSON format, it contains
 // reference id that useful for getting user / chunk data that stored elsewhere
-type flattenWorld struct {
+type FlattenWorld struct {
 	ID      string   `json:"id"`
-	Name    string   `json:"Name"`
+	Name    string   `json:"name"`
 	Chunks  []string `json:"chunks"`
 	Players []string `json:"players"`
 }
@@ -43,7 +43,7 @@ func LoadJSONWorld(worldID string) (*World, error) {
 	defer worldFile.Close()
 
 	flattenWorldEncoder := json.NewDecoder(worldFile)
-	var flatWorld flattenWorld
+	var flatWorld FlattenWorld
 	err = flattenWorldEncoder.Decode(&flatWorld)
 	if err != nil {
 		return nil, fmt.Errorf("World Data Decode error: %s", err)
@@ -101,6 +101,8 @@ func loadJSONChunk(chunkPath string) (*ChunkGraph, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	chunk.PlayerIDsPosition = make(map[PlayerPosition]string)
 
 	return &chunk, nil
 }

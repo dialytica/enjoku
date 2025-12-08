@@ -26,7 +26,7 @@ func SaveJSONWorld(gameWorld *World) error {
 		return fmt.Errorf("chunks path error: %s", err)
 	}
 
-	flatWorld := flattenWorld{
+	flatWorld := FlattenWorld{
 		ID:      gameWorld.ID,
 		Name:    gameWorld.Name,
 		Chunks:  make([]string, 0),
@@ -59,6 +59,7 @@ func SaveJSONWorld(gameWorld *World) error {
 	defer worldFile.Close()
 
 	worldEncoder := json.NewEncoder(worldFile)
+	worldEncoder.SetIndent("", "\t")
 	if err = worldEncoder.Encode(&flatWorld); err != nil {
 		return err
 	}
@@ -76,6 +77,7 @@ func saveJSONChunk(chunk *ChunkGraph, chunksPath string) error {
 	defer chunkFile.Close()
 
 	chunkEncoder := json.NewEncoder(chunkFile)
+	chunkEncoder.SetIndent("", "\t")
 	if err = chunkEncoder.Encode(chunk); err != nil {
 		return err
 	}
@@ -93,6 +95,7 @@ func saveJSONPlayer(player *Player, playersPath string) error {
 	defer playerFile.Close()
 
 	playerEncoder := json.NewEncoder(playerFile)
+	playerEncoder.SetIndent("", "\t")
 	if err = playerEncoder.Encode(player); err != nil {
 		return err
 	}
