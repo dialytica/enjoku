@@ -20,8 +20,9 @@ func main() {
 	}
 	playerName := "Hero"
 	playerID := "79bc4a8a-c23a-49e9-975d-f2c6b5637060"
+	worldID := "e79fb1f4-b38a-4cd0-9077-333f9a2765b9"
 
-	if _, err := tea.NewProgram(tui.NewModel(playerName, playerID), tea.WithAltScreen()).Run(); err != nil {
+	if _, err := tea.NewProgram(tui.NewModel(playerName, playerID, worldID), tea.WithAltScreen()).Run(); err != nil {
 		fmt.Printf("Could not start program :(\n%v\n", err)
 		os.Exit(1)
 	}

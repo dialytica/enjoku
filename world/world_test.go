@@ -69,8 +69,47 @@ func TestCreateNewWorld(t *testing.T) {
 }
 
 func TestLoadWorld(t *testing.T) {
-	// TODO: create a proper expecation for loaded world
-	t.SkipNow()
+	playerName := "TesPlayer"
+	playerID := "ffe7e548-30ab-4e1b-9746-eb55ad2e4946"
+	worldID := "2e919013-87c9-4821-a446-737c48983eda"
+
+	t.Run("non existent worldID", func(t *testing.T) {
+		gameWorld := world.LoadWorld(playerName, playerID,
+			"5616479e-c421-4e55-ad38-224f177a5c44")
+		if gameWorld != nil {
+			t.Errorf("the game world ID %s should not be exist, you must be lucky",
+				"5616479e-c421-4e55-ad38-224f177a5c44")
+		}
+	})
+
+	// Setup
+	savedPlayer := world.CreateNewPlayer(playerName)
+	savedPlayer.ID = playerID
+	savedWorld := world.CreateNewWorld(nil,
+		savedPlayer)
+	savedWorld.ID = worldID
+
+	err := world.SaveJSONWorld(savedWorld)
+	if err != nil {
+		t.Fatalf("setup save world failed. error: %s", err)
+	}
+
+	t.Run("load saved World", func(t *testing.T) {
+		loadedWorld := world.LoadWorld(playerName, playerID, worldID)
+		if loadedWorld == nil {
+			t.Fatal("Failed to load game world")
+		}
+
+		if loadedWorld.ID != savedWorld.ID {
+			t.Errorf("expecting worldID %s but got %s",
+				loadedWorld.ID, savedWorld.ID)
+		}
+
+		if len(loadedWorld.Players) != 1 {
+			t.Errorf("unexpected number of players. players: %+v",
+				loadedWorld.Players)
+		}
+	})
 }
 
 func TestMovePlayer(t *testing.T) {

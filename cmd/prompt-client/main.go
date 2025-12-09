@@ -34,7 +34,8 @@ func NewClient() *GameClient {
 	}
 
 	playerID := "2b4d54f5-d6c0-4346-af41-469a6794adae"
-	gameWorld := world.LoadWorld("NJQ", playerID)
+	worldID := "37ba110f-ac1c-4609-b15c-50e7c192bd04"
+	gameWorld := world.LoadWorld("NJQ", playerID, worldID)
 	player := gameWorld.Players[playerID]
 
 	var activeChunk *world.ChunkGraph

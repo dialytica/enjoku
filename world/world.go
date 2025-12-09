@@ -68,16 +68,23 @@ func CreateNewWorld(chunk *ChunkGraph, player *Player) *World {
 	return world
 }
 
-func LoadWorld(playerName, playerID string) *World {
-	// TODO: load world from file and check playerID is exist in the world
+func LoadWorld(playerName, playerID, worldID string) *World {
+	newWorld, err := LoadJSONWorld(worldID)
+	if err != nil {
+		log.Printf("error: worldID %s is not found\n", worldID)
+		return nil
+	}
 
-	player := CreateNewPlayer(playerName)
-	player.ID = playerID
-	newWorld := CreateNewWorld(nil, player)
-	chunkID := newWorld.ChunkIDPosition[ChunkPosition{X: 0, Y: 0}]
-	player.ChunkID = chunkID
-	chunk := newWorld.Chunks[chunkID]
-	chunk.InsertPlayerID(playerID, *player.Position)
+	// Check if player is not in the world yet, insert player
+	// TODO: consider adjustable player spawn point using world data
+	if _, ok := newWorld.Players[playerID]; !ok {
+		chunkID := newWorld.ChunkIDPosition[ChunkPosition{X: 0, Y: 0}]
+		chunk := newWorld.Chunks[chunkID]
+		player := CreateNewPlayer(playerName)
+		player.ID = playerID
+		newWorld.Players[playerID] = player
+		chunk.InsertPlayerID(playerID, *player.Position)
+	}
 	return newWorld
 }
 

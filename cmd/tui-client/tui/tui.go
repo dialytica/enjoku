@@ -70,6 +70,7 @@ var Keys = KeyMap{
 type TUIModel struct {
 	playerName  string
 	playerID    string
+	worldID     string
 	lastPPos    *world.PlayerPosition
 	keys        KeyMap
 	help        help.Model
@@ -83,10 +84,11 @@ type TUIModel struct {
 	quitting    bool
 }
 
-func NewModel(playerName, playerID string) *TUIModel {
+func NewModel(playerName, playerID, worldID string) *TUIModel {
 	tuiModel := TUIModel{
 		playerName: playerName,
 		playerID:   playerID,
+		worldID:    worldID,
 		keys:       Keys,
 		help:       help.New(),
 		inputStyle: lipgloss.NewStyle().Foreground(lipgloss.Color("#FF75B7")),
@@ -102,7 +104,7 @@ func NewModel(playerName, playerID string) *TUIModel {
 }
 
 func (m *TUIModel) Init() tea.Cmd {
-	m.gameWorld = world.LoadWorld(m.playerName, m.playerID)
+	m.gameWorld = world.LoadWorld(m.playerName, m.playerID, m.worldID)
 	m.player = m.gameWorld.Players[m.playerID]
 	m.activeChunk = m.gameWorld.Chunks[m.player.ChunkID]
 	return nil
