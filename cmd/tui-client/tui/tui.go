@@ -84,7 +84,7 @@ type TUIModel struct {
 	quitting    bool
 }
 
-func NewModel(playerName, playerID, worldID string) *TUIModel {
+func NewTUIModel(playerName, playerID, worldID string) *TUIModel {
 	tuiModel := TUIModel{
 		playerName: playerName,
 		playerID:   playerID,
