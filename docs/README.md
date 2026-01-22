@@ -26,4 +26,3 @@ is being played by other player.
 > [!NOTE]
 > The term AI that I was using before is game NPC behavior related term. Not
 > the infamous Large Language Model
-

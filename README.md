@@ -4,10 +4,11 @@
 
 This is a hobby project that was born from some questions,
 
-1. How to make a game that can be played with other people but I don't 
+1. How to make a game that can be played with other people but I don't
    have a confidence yet to make a multiplayer game that needs lot of costs
    and complexity?
-2. Would it be cool to play a game that somewhat multiplayer but actually single player?
+2. Would it be cool to play a game that somewhat multiplayer but actually
+  single player?
 
 And here I am trying to make it true by making a game that its game world would
 be defined by serialized data in a text format (e.g. JSON files). This game
