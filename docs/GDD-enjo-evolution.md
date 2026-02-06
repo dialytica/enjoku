@@ -33,25 +33,37 @@ Android, Steam
 
 ### Language
 
-C# (either Godot or Unity)
+Either C# or GDScript (in Godot)
 
 ### Device
 
-Mobile, PC
+Mobile, PC, Web(?)
 
 ## Game Play
 
 Grow an Enjo, mysterious creatures that devour Enjorodients and evolve into more
 complex creatures. Collects the various form of Enjo by evolving to the next
 evolution or adopt new Enjo! Expand the plot of land to accomodate more Enjo!
-Experience various random events to enrich Enjo Experiences.
+Fend off your Enjo from Stray Enjos that might be more advanced and try to
+devour your Enjos! Experience various random events to enrich Enjo Experiences.
+
+### Winning Condition
+
+* Evolve Enjo into the most advanced being
+* Collects all of Enjos Variants
+
+### Losing Condition
+
+* Your Enjo are being devoured by strays
 
 ### Game Play Outline
 
 * Opening Game Application
 * Start the Game Menu
 * Game Options Menu
+* Enjo Evolution
 * Enjo Events
+* Stray Enjo Encounters
 * Enjo Index (Collections index, and integrated with achievement)
 * Story Synopsis
 * Plot of Lands
@@ -64,6 +76,7 @@ Experience various random events to enrich Enjo Experiences.
 
 * Growing and nurturing unique Enjo creature
 * Digital Collectibles and Achievements
+* Defend your Enjo from Strays
 * Casual simple gameplay
 
 ## Design Document
@@ -113,6 +126,9 @@ Enjo can also consume lesser evolved other Enjo creature. The consumed Enjo
 creature will be converted into Enjorodients EnjoXP. Some special Enjo creature
 will have its own EnjoXP when consumed.
 
+There also Stray Adavanced Enjo that will try to consume your Enjo. Fight the
+strays and get extra EnjoXPs.
+
 ### Game Flowchart
 
 <!-- TODO: create flowchart and embed the image into document -->
@@ -122,6 +138,7 @@ will have its own EnjoXP when consumed.
 4. Upgrade Plot of Land Capacity Flow
 5. Buy Plot of Land Capacity Flow
 6. Booster Spawn Flow
+7. Stray Enjos Encounter Flow
 
 ### Player Definition
 
